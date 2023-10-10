@@ -95,15 +95,24 @@
 
 	leds {
 		compatible = "gpio-leds";
-		led1 {
-			gpios = <&gpioa 13 GPIO_ACTIVE_LOW>;
+
+		run {
+			label = "run";
+			gpios = <&gpioe 14 GPIO_ACTIVE_LOW>;
 			linux,default-trigger = "heartbeat";
 			default-state = "on";
 		};
-		led2 {
+
+		data {
+			label = "data";
+			gpios = <&gpioa 13 GPIO_ACTIVE_LOW>;
+			default-state = "off";
+		};
+
+		srv {
+			label = "srv";
 			gpios = <&gpioa 14 GPIO_ACTIVE_LOW>;
-			linux,default-trigger = "heartbeat";
-			default-state = "on";
+			default-state = "off";
 		};
 
 	};
@@ -384,10 +393,10 @@
 };
 
 &usart1 {
-	pinctrl-names = "default", "sleep", "idle";
+	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&usart1_pins_b>;
 	pinctrl-1 = <&usart1_sleep_pins_b>;
-	pinctrl-2 = <&usart1_idle_pins_b>;
+	//pinctrl-2 = <&usart1_idle_pins_b>;
 	status = "okay";
 };
 
@@ -396,7 +405,7 @@
 	pinctrl-0 = <&usart2_pins_a>;
 	pinctrl-1 = <&usart2_sleep_pins_a>;
 	pinctrl-2 = <&usart2_idle_pins_a>;
-	rts-gpios = <&gpiod 4 GPIO_ACTIVE_HIGH>;
+	//rts-gpios = <&gpiod 4 GPIO_ACTIVE_HIGH>;
 	linux,rs485-enabled-at-boot-time;
 	status = "okay";
 };
