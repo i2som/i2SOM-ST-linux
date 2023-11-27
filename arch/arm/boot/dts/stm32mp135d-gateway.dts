@@ -117,6 +117,15 @@
 
 	};
 
+	watchdog: watchdog {
+		compatible = "linux,wdt-gpio";
+		pinctrl-names = "default";
+		gpios = <&gpiod 1 GPIO_ACTIVE_LOW>;
+		hw_algo = "toggle";
+		hw_margin_ms = <1000>;
+		/*always-running;*/
+	};
+
 	v3v3_hdmi: regulator-v3v3-hdmi {
 		compatible = "regulator-fixed";
 		regulator-name = "v3v3_hdmi";
