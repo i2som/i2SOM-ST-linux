@@ -582,6 +582,9 @@ static void option_instat_callback(struct urb *urb);
 #define OPPO_VENDOR_ID				0x22d9
 #define OPPO_PRODUCT_R11			0x276c
 
+/* Lierda products */
+#define LIERDA_VENDOR_ID			0x3505
+#define LIERDA_PRODUCT_NR90			0x1101
 
 /* Device flags */
 
@@ -2175,6 +2178,11 @@ static const struct usb_device_id option_ids[] = {
 	{ USB_DEVICE_INTERFACE_CLASS(0x305a, 0x1405, 0xff) },			/* GosunCn GM500 MBIM */
 	{ USB_DEVICE_INTERFACE_CLASS(0x305a, 0x1406, 0xff) },			/* GosunCn GM500 ECM/NCM */
 	{ USB_DEVICE_AND_INTERFACE_INFO(OPPO_VENDOR_ID, OPPO_PRODUCT_R11, 0xff, 0xff, 0x30) },
+	{ USB_VENDOR_AND_INTERFACE_INFO(LIERDA_VENDOR_ID, 0xff, 0x03, 0x01) }, // Lierda NR90 Modem
+	{ USB_VENDOR_AND_INTERFACE_INFO(LIERDA_VENDOR_ID, 0xff, 0x03, 0x03) }, // Lierda NR90 Cali
+	{ USB_VENDOR_AND_INTERFACE_INFO(LIERDA_VENDOR_ID, 0xff, 0x03, 0x12) }, // Lierda NR90 AT
+	{ USB_VENDOR_AND_INTERFACE_INFO(LIERDA_VENDOR_ID, 0xff, 0x03, 0x13) }, // Lierda NR90 Diag Data
+	{ USB_VENDOR_AND_INTERFACE_INFO(LIERDA_VENDOR_ID, 0xff, 0x03, 0x14) }, // Lierda NR90 Diag Command
 	{ } /* Terminating entry */
 };
 MODULE_DEVICE_TABLE(usb, option_ids);
