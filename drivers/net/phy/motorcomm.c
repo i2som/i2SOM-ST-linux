@@ -1174,6 +1174,11 @@ static int yt8531_config_init(struct phy_device *phydev)
 	if (ret < 0)
 		return ret;
 
+	ret = ytphy_write_ext(phydev, 0xa012, 0xd0);
+        //ret = ytphy_write_ext(phydev, 0xa012, 0x90);
+	if (ret < 0)
+		return ret;
+
 	// configure led to active blink and link up
 	ret = ytphy_write_ext(phydev, 0xA00C, 0x70);
 	if (ret < 0)
