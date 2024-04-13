@@ -164,6 +164,8 @@ static int stm32_usart_config_rs485(struct uart_port *port,
 
 		writel_relaxed(cr3, port->membase + ofs->cr3);
 		writel_relaxed(cr1, port->membase + ofs->cr1);
+
+		mctrl_gpio_set(stm32_port->gpios, stm32_port->port.mctrl & ~TIOCM_RTS);
 	} else {
 		stm32_usart_clr_bits(port, ofs->cr3,
 				     USART_CR3_DEM | USART_CR3_DEP);
@@ -681,6 +683,7 @@ static void stm32_usart_transmit_chars(struct uart_port *port)
 	struct circ_buf *xmit = &port->state->xmit;
 	u32 isr;
 	int ret;
+	struct serial_rs485 *rs485conf = &port->rs485;
 
 	if (port->x_char) {
 		/* dma terminate may have been called in case of dma pause failure */
@@ -706,6 +709,21 @@ static void stm32_usart_transmit_chars(struct uart_port *port)
 
 	if (uart_circ_empty(xmit) || uart_tx_stopped(port)) {
 		stm32_usart_tx_interrupt_disable(port);
+
+		if (readl_relaxed(port->membase +  ofs->cr1) & USART_CR1_TCIE){
+			if (rs485conf->flags & SER_RS485_ENABLED) {
+			if (rs485conf->flags & SER_RS485_RTS_ON_SEND) {
+				mctrl_gpio_set(stm32_port->gpios, stm32_port->port.mctrl & ~TIOCM_RTS);
+			} else {
+				mctrl_gpio_set(stm32_port->gpios, stm32_port->port.mctrl | TIOCM_RTS);
+			}
+			}
+
+			stm32_usart_clr_bits(port, ofs->cr1, USART_CR1_TCIE);
+		}else{
+			stm32_usart_set_bits(port, ofs->cr1, USART_CR1_TCIE);
+		}
+
 		return;
 	}
 
@@ -722,8 +740,10 @@ static void stm32_usart_transmit_chars(struct uart_port *port)
 	if (uart_circ_chars_pending(xmit) < WAKEUP_CHARS)
 		uart_write_wakeup(port);
 
-	if (uart_circ_empty(xmit))
+	if (uart_circ_empty(xmit)) {
 		stm32_usart_tx_interrupt_disable(port);
+		stm32_usart_set_bits(port, ofs->cr1, USART_CR1_TCIE);
+	}
 }
 
 static irqreturn_t stm32_usart_interrupt(int irq, void *ptr)
@@ -1283,6 +1303,8 @@ static const char *stm32_usart_type(struct uart_port *port)
 
 static void stm32_usart_release_port(struct uart_port *port)
 {
+	struct stm32_port *stm32_port = to_stm32_port(port);
+	mctrl_gpio_set(stm32_port->gpios, stm32_port->port.mctrl & ~TIOCM_RTS);
 }
 
 static int stm32_usart_request_port(struct uart_port *port)
@@ -1705,6 +1727,7 @@ static int stm32_usart_serial_probe(struct platform_device *pdev)
 
 	pm_runtime_put_sync(&pdev->dev);
 
+	mctrl_gpio_set(stm32port->gpios, stm32port->port.mctrl & ~TIOCM_RTS);
 	return 0;
 
 err_port:
