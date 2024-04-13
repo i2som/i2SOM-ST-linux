@@ -206,7 +206,8 @@
 	};
 
 	panel_rgb: panel-rgb {
-		compatible = "innolux,at070tn92";
+		compatible = "wks,wks50089";
+		//compatible = "innolux,at070tn92";
 		//compatible = "innolux,zj070na-01p";
 		//compatible = "innolux,at043tn24";
 		enable-gpios = <&gpioh 15 GPIO_ACTIVE_HIGH>;

@@ -2510,6 +2510,29 @@ static const struct panel_desc innolux_at070tn92 = {
 	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
 };
 
+static const struct drm_display_mode wks_wks50089_mode = {
+	.clock = 25000,
+	.hdisplay = 800,
+	.hsync_start = 800 + 8,
+	.hsync_end = 800 + 8 + 8,
+	.htotal = 800 + 8 + 8 + 4,
+	.vdisplay = 480,
+	.vsync_start = 480 + 8,
+	.vsync_end = 480 + 8 + 8,
+	.vtotal = 480 + 8 + 8 + 4,
+};
+
+static const struct panel_desc wks_wks50089 = {
+	.modes = &wks_wks50089_mode,
+	.num_modes = 1,
+	.size = {
+		.width = 108,
+		.height = 64,
+	},
+	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
+};
+
+
 static const struct display_timing innolux_g070y2_l01_timing = {
 	.pixelclock = { 28000000, 29500000, 32000000 },
 	.hactive = { 800, 800, 800 },
@@ -4918,6 +4941,9 @@ static const struct of_device_id platform_of_match[] = {
 	}, {
 		.compatible = "yes-optoelectronics,ytc700tlag-05-201c",
 		.data = &yes_optoelectronics_ytc700tlag_05_201c,
+	}, {
+		.compatible = "wks,wks50089",
+		.data = &wks_wks50089,
 	}, {
 		/* Must be the last entry */
 		.compatible = "panel-dpi",
