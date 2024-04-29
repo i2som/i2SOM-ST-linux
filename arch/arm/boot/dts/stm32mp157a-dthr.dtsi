@@ -199,8 +199,8 @@
 	vdd_adc: regulator-vdd-0v {
 		compatible = "regulator-fixed";
 		regulator-name = "vdd_adc_0v";
-		regulator-min-microvolt = <2200000>;
-		regulator-max-microvolt = <2200000>;
+		regulator-min-microvolt = <4096000>;
+		regulator-max-microvolt = <4096000>;
 		regulator-always-on;
 		regulator-boot-on;
 	};
@@ -627,7 +627,7 @@
 		compatible = "adi,ad7689";
 		reg = <0>;
 		vref-supply = <&vdd_adc>;
-		spi-max-frequency = <16000000>;
+		spi-max-frequency = <1000000>;
         };
 };
 
