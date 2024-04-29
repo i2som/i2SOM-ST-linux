@@ -217,7 +217,7 @@ static int ad7949_spi_init(struct ad7949_adc_chip *ad7949_adc)
 
 	/* Sequencer disabled, CFG readback disabled, IN0 as default channel */
 	ad7949_adc->current_channel = 0;
-	ret = ad7949_spi_write_cfg(ad7949_adc, 0x3C79, AD7949_MASK_TOTAL);
+	ret = ad7949_spi_write_cfg(ad7949_adc, 0x3C49, AD7949_MASK_TOTAL);
 
 	/*
 	 * Do two dummy conversions to apply the first configuration setting.
