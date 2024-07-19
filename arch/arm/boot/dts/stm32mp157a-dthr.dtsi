@@ -609,11 +609,12 @@
 	pinctrl-0 = <&sdmmc3_b4_pins_a>;
 	pinctrl-1 = <&sdmmc3_b4_od_pins_a>;
 	pinctrl-2 = <&sdmmc3_b4_sleep_pins_a>;
-	broken-cd;
+	cd-gpios = <&gpioe 10 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
 	st,neg-edge;
+	disable-wp;
 	bus-width = <4>;
 	vmmc-supply = <&vdd_v3v3>;
-	status = "disabled";
+	status = "okay";
 };
 
 &spi1 {
